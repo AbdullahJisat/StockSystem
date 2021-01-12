@@ -17,13 +17,13 @@
     </div>
 </div>
 @if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
 @endif
 	<form class="" method="POST" action="{{ (@$editData)?route('product.update',$editData->id):route('product.store') }}" enctype="multipart/form-data">
     @csrf
@@ -44,9 +44,9 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <label for="name" class="">{{_('Name')}}</label>
-                <input type="text" name="name" value="{{ @$editData->name }}" class="form-control" placeholder="Name"
+                <input type="text" name="name" value="{{ @$editData->name }}" class="form-control" placeholder="Name" class="form-control @error('name') is-invalid @enderror">
                 {{-- <font color="red">{{ ($error->has('name'))(@error->first('name')):'' }}</font> --}}
-                @error('name') is-invalid @enderror">
+                
                 @error('name')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        {{-- <div class="col-xs-12 col-sm-12 col-md-12">
+         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <label for="image" class="">{{_('Image')}}</label>
                 <input type="file" name="image" id="iamge" class="form-control">
@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+       {{-- <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <label for="sub_image" class="">{{_('SubImage')}}</label>
                 <input type="file" name="sub_image[]" class="form-control" multiple>

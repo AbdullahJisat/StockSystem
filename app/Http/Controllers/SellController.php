@@ -3,38 +3,40 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests\CategoryRequest;
-
 use App\Category;
+use App\Sell;
+use App\Customer;
 use App\Product;
 use App\ProductImage;
 
 use DB;
 
 
-class ProductController extends Controller
+
+class SellController extends Controller
 {
     public function view()
     {
         $datas['all']=Product::all();
-        return view('product.view',$datas);
+        return view('sell.view',$datas);
     }
 
     public function add()
     {
-        $data['categories'] = Category::all();
-        $data['customers'] = Customer::all();
-        return view('product.add',$data);
+        // $data['categories']
+        $categories = Category::all();
+        // $data['$customers'] 
+        $customers = Customer::all();
+        $product = Product::all();
+        return view('sell.add')->with(['pro'=>$product,'cat'=>$categories,'cus'=>$customers]);
     }
 
     public function store(Request $request)
     {
         DB::transaction(function () use($request){
-            $data = $request->except('image','buyprice');
-            $data->buy_price = $request->buyprice;
-            Product::create($data);
-            return redirect()->route('product.view')
+            $data = $request->all();
+            Sell::create($data);
+            return redirect()->route('sell.view')
             ->with('success','insert successfully.');
          });
     }

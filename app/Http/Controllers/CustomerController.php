@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\CustomerRequest;
 
-use App\Customer;
+use App\customer;
 
 use DB;
 
@@ -26,14 +26,20 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required|unique:categories,name'
+            'name' => 'required|unique:customers,name'
         ]);
-        $data = new Customer();
-        $data->name = $request->name;
-        $data->save();
+
+        $data = $request->except(['image']);
+        if($request->hasFile('image'))
+        {
+            $filename = time().'.'.$request->image->getClientOriginalExtension();
+            $data['image'] = $request->image->storeAs('images/customer', $filename, 'public');
+        }
+        Customer::create($data);
         return redirect()->route('customer.view')
         ->with('success','insert successfully.');
     }
+    
     public function edit($id)
     {
         $editData  = Customer::find($id);
