@@ -53,24 +53,24 @@
                 </select>
             </div>
         </div>
+        <?php $prod = $pro ?>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <label for="category" class="">{{_('Category')}}</label>
-                <select name="pro_id" id="pro_id" onchange="setPrice(this.value)" class="">
+                <select name="pro_id" id="pro_id" onchange="setPrice(this.value, {{$pro}})" class="">
                     <option value="">select</option>
-                    @foreach ($pro as $category)
-                    <option value="{{ $category->id }}" {{ (@$editData->
-                    category_id==$category->id)?"selected":"" }}>{{ $category->name }}</option>  
+                    @foreach ($pro as $pro)
+                    <option value="{{ $pro->id }}" {{ (@$editData->category_id==$pro->id)?"selected":"" }}>{{ $pro->name }}</option>  
                     @endforeach
                 </select>
             </div>
         </div>
-        {{-- <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <label for="price" class="">{{_('Price')}}</label>
-                <input type="number" name="price" value="{{ @$editData->price }}" class="form-control" placeholder="Name">
+                <input type="number" id="price" disabled name="price" value="{{ @$editData->price }}" class="form-control" placeholder="price">
             </div>
-        </div> --}}
+        </div>
         
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <button type="submit" class="btn btn-primary">{{(@$editData)?"Update":"Submit"}}</button>
@@ -78,10 +78,19 @@
     </div>
 </form>
 <script>
-    function setPrice(id) {debugger
-        var pro = '<?php echo $pro; ?>';
-        console.log(pro)
-        alert(id)
+    function setPrice(id, p) {
+
+        console.log(p);
+        $.each(p, function(i, row){
+            console.log(row.price);
+            if (row.id == id) {
+                $('#price').val(row.price);
+                return false;
+            }
+            else
+                $('#price').val('');
+
+        });
     }
 </script>
 @endsection

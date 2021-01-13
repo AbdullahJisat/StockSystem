@@ -7,11 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 
 use App\Category;
+use App\customer;
 use App\Product;
 use App\ProductImage;
-
 use DB;
-
 
 class ProductController extends Controller
 {
@@ -24,19 +23,20 @@ class ProductController extends Controller
     public function add()
     {
         $data['categories'] = Category::all();
-        $data['customers'] = Customer::all();
+        $data['customers'] = customer::all();
         return view('product.add',$data);
     }
 
     public function store(Request $request)
     {
-        DB::transaction(function () use($request){
+        // DB::transaction(function () use($request){
             $data = $request->except('image','buyprice');
-            $data->buy_price = $request->buyprice;
+
+            $data['buy_price'] = $request->buyprice;
             Product::create($data);
             return redirect()->route('product.view')
             ->with('success','insert successfully.');
-         });
+        // });
     }
     
 
@@ -57,7 +57,7 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
         $product->price = $request->price;
         $product->buy_price = $request->buyprice;
-        $data->save();
+        $product->save();
         return redirect()->route('product.view')
         ->with('success','update successfully.');
     }
