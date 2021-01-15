@@ -17,13 +17,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('Category/view','CategoryController@view')->name("category.view");
-Route::get('Category/add','CategoryController@add')->name("category.add");
-Route::post('Category/store','CategoryController@store')->name("category.store");
-Route::get('Category/edit/{id}','CategoryController@edit')->name("category.edit");
-Route::post('Category/update/{id}','CategoryController@update')->name("category.update");
-Route::post('Category/delete','CategoryController@delete')->name("category.delete");
+Auth::routes();
+Route::group(['prefix' => 'admin', 'middleware' => 'log'], function () {
+    
+    Route::get('Category/view','CategoryController@view')->name("category.view");
+    Route::get('Category/add','CategoryController@add')->name("category.add");
+    Route::post('Category/store','CategoryController@store')->name("category.store");
+    Route::get('Category/edit/{id}','CategoryController@edit')->name("category.edit");
+    Route::post('Category/update/{id}','CategoryController@update')->name("category.update");
+    Route::post('Category/delete','CategoryController@delete')->name("category.delete");
+});
 
 Route::get('Product/view','ProductController@view')->name("product.view");
 Route::get('Product/add','ProductController@add')->name("product.add");
@@ -45,3 +48,5 @@ Route::post('Sell/store','SellController@store')->name("sell.store");
 Route::get('Sell/edit/{id}','SellController@edit')->name("sell.edit");
 Route::put('Sell/update/{id}','SellController@update')->name("sell.update");
 Route::post('Sell/delete','SellController@delete')->name("sell.delete");
+
+Route::get('/home', 'HomeController@index')->name('home');

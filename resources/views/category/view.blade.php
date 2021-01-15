@@ -30,7 +30,7 @@
                 <td>{{ $i++ }}</td>
                 <td>{{ $category->name }}</td>
                 <td>
-                    <a title="Edit" class="btn btn-primary" href="{{ route('category.add',$category->id) }}"></a>||
+                    <a title="Edit" class="btn btn-primary" href="{{ route('category.edit',$category->id) }}">Edit</a>||
                     
                     
                     <a title="Delete" class="btn btn-primary" href="{{ route('category.delete') }}" data-token="{{ csrf_token() }}" data-id="{{ $category->id }}">Delete</a>
